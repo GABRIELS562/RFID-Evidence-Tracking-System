@@ -596,7 +596,6 @@ const ClientDemo: React.FC = () => {
           <p style={{
             fontSize: '16px',
             color: 'rgba(255, 255, 255, 0.8)',
-            margin: 0,
             maxWidth: '800px',
             margin: '0 auto',
             lineHeight: '1.6',

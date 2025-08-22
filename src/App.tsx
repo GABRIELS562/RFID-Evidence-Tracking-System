@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 
+// Import ThemeProvider
+import { ThemeProvider } from './contexts/ThemeContext';
+
 // Import showcase pages - we'll use the ones that exist
 import RFIDTracking from './pages/RFIDTracking';
 import RFIDLiveTracking from './pages/RFIDLiveTracking';
@@ -44,13 +47,14 @@ const App: React.FC = () => {
   }
 
   return (
-    <Router>
-      <div className="app">
-        <header className="app-header" style={{
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          padding: '20px',
-          color: 'white'
-        }}>
+    <ThemeProvider>
+      <Router>
+        <div className="app">
+          <header className="app-header" style={{
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            padding: '20px',
+            color: 'white'
+          }}>
           <div className="header-content">
             <h1>🔍 RFID Evidence Tracking System</h1>
             <p className="subtitle">Forensic Lab Management Solution - Demo Version</p>
@@ -157,6 +161,7 @@ const App: React.FC = () => {
         </footer>
       </div>
     </Router>
+    </ThemeProvider>
   );
 };
 

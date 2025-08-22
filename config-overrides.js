@@ -16,7 +16,7 @@ module.exports = function override(config) {
     "querystring": require.resolve("querystring-es3"),
     "util": require.resolve("util/"),
     "buffer": require.resolve("buffer"),
-    "process": require.resolve("process/browser"),
+    "process": require.resolve("process/browser.js"),
     "fs": false,
     "net": false,
     "tls": false,
@@ -29,16 +29,24 @@ module.exports = function override(config) {
   config.plugins = [
     ...config.plugins,
     new webpack.ProvidePlugin({
-      process: 'process/browser',
+      process: 'process/browser.js',
       Buffer: ['buffer', 'Buffer'],
     }),
   ];
 
-  // Add alias for src directory
+  // Add alias for src directory and process
   config.resolve.alias = {
     ...config.resolve.alias,
     '@': path.resolve(__dirname, 'src'),
+    'process/browser': require.resolve('process/browser.js'),
   };
+
+  // Fix for .mjs files
+  config.module.rules.push({
+    test: /\.mjs$/,
+    include: /node_modules/,
+    type: 'javascript/auto',
+  });
 
   return config;
 };

@@ -284,7 +284,7 @@ const CourtPreparation: React.FC = () => {
         </div>
       )}
 
-      <style jsx>{`
+      <style>{`
         .preparation-checklist {
           padding: 1rem;
         }

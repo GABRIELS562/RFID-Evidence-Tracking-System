@@ -1,6 +1,8 @@
-# RFID Evidence Tracking System - Portfolio Showcase
+# RFID Evidence Tracking System - Frontend Showcase
 
-A modern, real-time RFID-based evidence tracking system designed for forensic laboratories and law enforcement agencies. This showcase demonstrates advanced full-stack development capabilities with real-time tracking, 3D visualization, and comprehensive chain-of-custody management.
+**⚠️ This is a portfolio demonstration showcasing the frontend UI/UX capabilities. All data is simulated for demonstration purposes.**
+
+A modern, real-time RFID-based evidence tracking system interface designed for forensic laboratories and law enforcement agencies. This showcase demonstrates advanced frontend development capabilities with real-time tracking visualizations, 3D interfaces, and comprehensive dashboard components.
 
 ## 🎯 Problem Statement
 
@@ -24,18 +26,20 @@ Forensic laboratories handle thousands of evidence items daily. Manual tracking 
 
 ## 🛠️ Technology Stack
 
-### Frontend
-- React 18 with TypeScript
-- Three.js for 3D visualization
-- Socket.io for real-time updates
-- Modern UI with responsive design
+### Frontend Technologies (Showcased)
+- **React 18** with TypeScript for modern component architecture
+- **Three.js & React Three Fiber** for immersive 3D visualizations
+- **D3.js** for advanced data visualization
+- **Framer Motion** for smooth animations
+- **Socket.io Client** for real-time update simulation
+- **Responsive Design** with mobile-first approach
 
-### Backend
-- Node.js with Express
-- TypeScript for type safety
-- PostgreSQL database
-- Socket.io for WebSocket connections
-- JWT authentication
+### UI/UX Features
+- Real-time dashboard with live metrics
+- Interactive 3D warehouse visualization
+- Drag-and-drop interfaces
+- Dark/Light theme support
+- Accessibility compliant (WCAG 2.1)
 
 ### Security & Compliance
 - End-to-end encryption (AES-256)
@@ -51,41 +55,32 @@ Forensic laboratories handle thousands of evidence items daily. Manual tracking 
 - PostgreSQL (v14 or higher)
 - npm or yarn package manager
 
-## 🔧 Installation
+## 🔧 Quick Start
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/GABRIELS562/rfid-inventory-tracking.git
-cd rfid-inventory-tracking
+git clone https://github.com/GABRIELS562/RFID-Evidence-Tracking-System.git
+cd RFID-Evidence-Tracking-System
 ```
 
 2. Install dependencies:
 ```bash
-npm install
+npm install --legacy-peer-deps
 ```
 
-3. Set up environment variables:
+3. Start the frontend showcase:
 ```bash
-cp .env.example .env
-# Edit .env with your database and configuration settings
-```
-
-4. Set up the database:
-```bash
-npm run db:create
-npm run db:migrate
-```
-
-5. Start the development server:
-```bash
-npm run dev
+npm run dev:frontend
 ```
 
 The application will be available at:
-- Frontend: http://localhost:3005
-- Backend API: http://localhost:3001
-- 3D Visualization: http://localhost:3005/visualization
-- Live Tracking: http://localhost:3005/rfid-live
+- **Main Dashboard**: http://localhost:3005
+- **Live Tracking**: http://localhost:3005/rfid-live
+- **3D Visualization**: http://localhost:3005/visualization
+- **Storage Management**: http://localhost:3005/storage
+- **Analytics**: http://localhost:3005/analytics
+
+**Note:** This is a frontend showcase with mock data. No backend server or database setup is required.
 
 ## 🏗️ Project Structure
 
@@ -197,4 +192,25 @@ Project Link: [https://github.com/GABRIELS562/RFID-Evidence-Tracking-System](htt
 
 ---
 
-**Note**: This is a portfolio demonstration. All data shown is simulated and no real forensic evidence or sensitive information is displayed or processed.
+## 📌 Important Notes
+
+### This is a Frontend Showcase
+- **All data is simulated** - No real forensic evidence or sensitive information
+- **Mock services** - API calls return demo data for UI demonstration
+- **No backend required** - Runs entirely in the browser with mock data
+- **Portfolio demonstration** - Focused on showcasing UI/UX capabilities
+
+### Full System Features (Conceptual)
+The complete system architecture includes:
+- Real-time RFID hardware integration
+- PostgreSQL database with full CRUD operations
+- WebSocket connections for live updates
+- RESTful API with JWT authentication
+- Microservices architecture
+- Cloud deployment with auto-scaling
+
+For the full implementation details or backend integration, please contact the developer.
+
+---
+
+**Built by Gabriel** - [GitHub Profile](https://github.com/GABRIELS562)

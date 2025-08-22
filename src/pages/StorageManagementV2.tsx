@@ -14,7 +14,7 @@ const StorageManagementV2: React.FC = () => {
   const [zones, setZones] = useState<StorageZone[]>([]);
   const [boxes, setBoxes] = useState<StorageBox[]>([]);
   const [requests, setRequests] = useState<RetrievalRequest[]>([]);
-  const [selectedZone, setSelectedZone] = useState<number | null>(null);
+  const [selectedZone, setSelectedZone] = useState<string | null>(null);
   const [selectedClient, setSelectedClient] = useState<number | null>(null);
   
   // Modal states
@@ -24,15 +24,15 @@ const StorageManagementV2: React.FC = () => {
   
   // Form states
   const [newBoxForm, setNewBoxForm] = useState({
-    client_id: 1,
-    zone_id: 1,
+    client_id: 'client-001',
+    zone_id: 'zone-a',
     capacity: 100,
     box_type: 'standard'
   });
   
   const [retrievalForm, setRetrievalForm] = useState({
-    client_id: 1,
-    docket_ids: [] as number[],
+    client_id: 'client-001',
+    docket_ids: [] as string[],
     urgency: 'normal' as 'normal' | 'urgent',
     notes: ''
   });
@@ -96,7 +96,7 @@ const StorageManagementV2: React.FC = () => {
     }
   };
 
-  const handleCompleteRetrieval = async (requestId: number) => {
+  const handleCompleteRetrieval = async (requestId: string) => {
     try {
       await storageAPI.completeRetrieval(requestId);
       loadDashboardData();
@@ -338,7 +338,7 @@ const StorageManagementV2: React.FC = () => {
               <select 
                 value={selectedZone || ''} 
                 onChange={(e) => {
-                  const zoneId = e.target.value ? parseInt(e.target.value) : null;
+                  const zoneId = e.target.value || null;
                   setSelectedZone(zoneId);
                   loadBoxes(zoneId ? { zone_id: zoneId } : {});
                 }}
@@ -481,7 +481,7 @@ const StorageManagementV2: React.FC = () => {
                       Process
                     </button>
                   )}
-                  {request.status === 'processing' && (
+                  {request.status === 'approved' && (
                     <button 
                       className="btn btn-sm btn-success"
                       onClick={() => handleCompleteRetrieval(request.id)}
@@ -515,8 +515,8 @@ const StorageManagementV2: React.FC = () => {
                 </div>
                 <div className="billing-item">
                   <span className="label">Retrieval Requests (This Month):</span>
-                  <span className="value">{requests.filter(r => r.status === 'completed').length}</span>
-                  <span className="amount">R{requests.filter(r => r.status === 'completed').reduce((sum, r) => sum + r.retrieval_fee, 0).toFixed(2)}</span>
+                  <span className="value">{requests.filter(r => r.status === 'retrieved').length}</span>
+                  <span className="amount">R{requests.filter(r => r.status === 'retrieved').reduce((sum, r) => sum + (r.retrieval_fee || 0), 0).toFixed(2)}</span>
                 </div>
                 <div className="billing-item total">
                   <span className="label">Total Monthly Revenue:</span>
@@ -540,16 +540,16 @@ const StorageManagementV2: React.FC = () => {
               <div className="form-group">
                 <label>Client ID</label>
                 <input
-                  type="number"
+                  type="text"
                   value={newBoxForm.client_id}
-                  onChange={(e) => setNewBoxForm({...newBoxForm, client_id: parseInt(e.target.value)})}
+                  onChange={(e) => setNewBoxForm({...newBoxForm, client_id: e.target.value})}
                 />
               </div>
               <div className="form-group">
                 <label>Zone</label>
                 <select
                   value={newBoxForm.zone_id}
-                  onChange={(e) => setNewBoxForm({...newBoxForm, zone_id: parseInt(e.target.value)})}
+                  onChange={(e) => setNewBoxForm({...newBoxForm, zone_id: e.target.value})}
                 >
                   {zones.map(zone => (
                     <option key={zone.id} value={zone.id}>{zone.zone_name}</option>
@@ -600,19 +600,19 @@ const StorageManagementV2: React.FC = () => {
               <div className="form-group">
                 <label>Client ID</label>
                 <input
-                  type="number"
+                  type="text"
                   value={retrievalForm.client_id}
-                  onChange={(e) => setRetrievalForm({...retrievalForm, client_id: parseInt(e.target.value)})}
+                  onChange={(e) => setRetrievalForm({...retrievalForm, client_id: e.target.value})}
                 />
               </div>
               <div className="form-group">
                 <label>Docket IDs (comma separated)</label>
                 <input
                   type="text"
-                  placeholder="1, 2, 3"
+                  placeholder="DOC-001, DOC-002, DOC-003"
                   onChange={(e) => setRetrievalForm({
                     ...retrievalForm, 
-                    docket_ids: e.target.value.split(',').map(id => parseInt(id.trim())).filter(id => !isNaN(id))
+                    docket_ids: e.target.value.split(',').map(id => id.trim()).filter(id => id.length > 0)
                   })}
                 />
               </div>

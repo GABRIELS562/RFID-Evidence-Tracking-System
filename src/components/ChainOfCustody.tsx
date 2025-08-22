@@ -140,6 +140,7 @@ const ChainOfCustody: React.FC<ChainOfCustodyProps> = ({
   const [filter, setFilter] = useState('');
   const [showVerificationDetails, setShowVerificationDetails] = useState(false);
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(['basic']));
+  const [showDetailsState, setShowDetailsState] = useState(showDetails);
   
   const printRef = useRef<HTMLDivElement>(null);
   
@@ -742,7 +743,7 @@ const ChainOfCustody: React.FC<ChainOfCustodyProps> = ({
               {/* Personnel and Location */}
               <div style={{
                 display: 'grid',
-                gridTemplateColumns: showDetails ? '1fr 1fr 1fr' : '1fr 1fr',
+                gridTemplateColumns: showDetailsState ? '1fr 1fr 1fr' : '1fr 1fr',
                 gap: '12px',
                 marginBottom: '12px',
               }}>
@@ -770,7 +771,7 @@ const ChainOfCustody: React.FC<ChainOfCustodyProps> = ({
                   {renderPersonnelCard(entry.toPersonnel, 'to')}
                 </div>
                 
-                {showDetails && (
+                {showDetailsState && (
                   <div>
                     <div style={{
                       fontSize: '11px',
@@ -837,7 +838,7 @@ const ChainOfCustody: React.FC<ChainOfCustodyProps> = ({
               </div>
               
               {/* Evidence details */}
-              {showDetails && (
+              {showDetailsState && (
                 <div style={{
                   padding: '12px',
                   background: 'var(--bg-tertiary)',
@@ -992,10 +993,10 @@ const ChainOfCustody: React.FC<ChainOfCustodyProps> = ({
       {/* Right controls */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
         <button
-          onClick={() => setShowDetails(!showDetails)}
+          onClick={() => setShowDetailsState(!showDetailsState)}
           style={{
             padding: '6px 10px',
-            background: showDetails ? 'var(--bg-primary)' : 'transparent',
+            background: showDetailsState ? 'var(--bg-primary)' : 'transparent',
             border: '1px solid var(--border-primary)',
             borderRadius: '6px',
             color: 'var(--text-primary)',

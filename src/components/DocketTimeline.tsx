@@ -87,6 +87,8 @@ const DocketTimeline: React.FC<DocketTimelineProps> = ({
   const [selectedTypes, setSelectedTypes] = useState<Set<string>>(new Set());
   const [showDetails, setShowDetails] = useState(true);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [compactModeState, setCompactModeState] = useState(compactMode);
+  const [orientationState, setOrientationState] = useState<'horizontal' | 'vertical'>(orientation);
   
   const timelineRef = useRef<HTMLDivElement>(null);
   const playbackRef = useRef<number>();
@@ -427,7 +429,7 @@ const DocketTimeline: React.FC<DocketTimelineProps> = ({
     const color = getEventColor(event.severity, event.status);
     const icon = getEventIcon(event.type, event.status);
     
-    const eventStyle = orientation === 'horizontal' 
+    const eventStyle = orientationState === 'horizontal' 
       ? {
           minWidth: '300px',
           marginRight: '20px',
@@ -451,8 +453,8 @@ const DocketTimeline: React.FC<DocketTimelineProps> = ({
         <div
           style={{
             position: 'absolute',
-            left: orientation === 'horizontal' ? '0' : '-10px',
-            top: orientation === 'horizontal' ? '-10px' : '20px',
+            left: orientationState === 'horizontal' ? '0' : '-10px',
+            top: orientationState === 'horizontal' ? '-10px' : '20px',
             width: '20px',
             height: '20px',
             borderRadius: '50%',
@@ -480,8 +482,8 @@ const DocketTimeline: React.FC<DocketTimelineProps> = ({
             background: 'var(--bg-secondary)',
             border: `1px solid ${isSelected ? color : 'var(--border-primary)'}`,
             borderRadius: '12px',
-            padding: compactMode ? '10px' : '15px',
-            marginLeft: orientation === 'horizontal' ? '0' : '20px',
+            padding: compactModeState ? '10px' : '15px',
+            marginLeft: orientationState === 'horizontal' ? '0' : '20px',
             cursor: 'pointer',
             transition: 'all 0.3s',
             boxShadow: isSelected ? `0 0 20px ${color}40` : '0 2px 10px rgba(0,0,0,0.1)',
@@ -500,11 +502,11 @@ const DocketTimeline: React.FC<DocketTimelineProps> = ({
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'flex-start',
-            marginBottom: compactMode ? '6px' : '10px',
+            marginBottom: compactModeState ? '6px' : '10px',
           }}>
             <div>
               <div style={{
-                fontSize: compactMode ? '13px' : '14px',
+                fontSize: compactModeState ? '13px' : '14px',
                 fontWeight: '600',
                 color: 'var(--text-primary)',
                 marginBottom: '2px',
@@ -538,7 +540,7 @@ const DocketTimeline: React.FC<DocketTimelineProps> = ({
           </div>
           
           {/* Description */}
-          {!compactMode && (
+          {!compactModeState && (
             <div style={{
               fontSize: '12px',
               color: 'var(--text-primary)',
@@ -552,7 +554,7 @@ const DocketTimeline: React.FC<DocketTimelineProps> = ({
           {/* Location and Personnel */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: compactMode ? '1fr' : '1fr 1fr',
+            gridTemplateColumns: compactModeState ? '1fr' : '1fr 1fr',
             gap: '8px',
             fontSize: '11px',
             color: 'var(--text-secondary)',
@@ -567,7 +569,7 @@ const DocketTimeline: React.FC<DocketTimelineProps> = ({
               </div>
             )}
             
-            {event.personnel && !compactMode && (
+            {event.personnel && !compactModeState && (
               <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                 <User size={10} />
                 <span>{event.personnel.name}</span>
@@ -576,7 +578,7 @@ const DocketTimeline: React.FC<DocketTimelineProps> = ({
           </div>
           
           {/* Environmental data */}
-          {event.environmental && showDetails && !compactMode && (
+          {event.environmental && showDetails && !compactModeState && (
             <div style={{
               marginTop: '8px',
               padding: '6px 8px',
@@ -602,7 +604,7 @@ const DocketTimeline: React.FC<DocketTimelineProps> = ({
           )}
           
           {/* Tags */}
-          {event.tags && showDetails && !compactMode && (
+          {event.tags && showDetails && !compactModeState && (
             <div style={{
               marginTop: '8px',
               display: 'flex',
@@ -645,7 +647,7 @@ const DocketTimeline: React.FC<DocketTimelineProps> = ({
         </div>
         
         {/* Connection line to next event */}
-        {orientation === 'vertical' && index < processedEvents.length - 1 && (
+        {orientationState === 'vertical' && index < processedEvents.length - 1 && (
           <div style={{
             position: 'absolute',
             left: '-1px',
@@ -657,7 +659,7 @@ const DocketTimeline: React.FC<DocketTimelineProps> = ({
           }} />
         )}
         
-        {orientation === 'horizontal' && index < processedEvents.length - 1 && (
+        {orientationState === 'horizontal' && index < processedEvents.length - 1 && (
           <div style={{
             position: 'absolute',
             top: '-1px',
@@ -792,10 +794,10 @@ const DocketTimeline: React.FC<DocketTimelineProps> = ({
           Details
         </button>
         <button
-          onClick={() => setCompactMode(!compactMode)}
+          onClick={() => setCompactModeState(!compactModeState)}
           style={{
             padding: '6px 10px',
-            background: compactMode ? 'var(--bg-primary)' : 'transparent',
+            background: compactModeState ? 'var(--bg-primary)' : 'transparent',
             border: '1px solid var(--border-primary)',
             borderRadius: '6px',
             color: 'var(--text-primary)',
@@ -806,7 +808,7 @@ const DocketTimeline: React.FC<DocketTimelineProps> = ({
           Compact
         </button>
         <button
-          onClick={() => setOrientation(orientation === 'vertical' ? 'horizontal' : 'vertical')}
+          onClick={() => setOrientationState(orientationState === 'vertical' ? 'horizontal' : 'vertical')}
           style={{
             padding: '6px',
             background: 'transparent',
@@ -956,8 +958,8 @@ const DocketTimeline: React.FC<DocketTimelineProps> = ({
           padding: '30px 20px',
           minHeight: '400px',
           position: 'relative',
-          overflowX: orientation === 'horizontal' ? 'auto' : 'visible',
-          overflowY: orientation === 'vertical' ? 'auto' : 'visible',
+          overflowX: orientationState === 'horizontal' ? 'auto' : 'visible',
+          overflowY: orientationState === 'vertical' ? 'auto' : 'visible',
           maxHeight: '800px',
         }}
       >
@@ -974,12 +976,12 @@ const DocketTimeline: React.FC<DocketTimelineProps> = ({
           </div>
         ) : (
           <div style={{
-            display: orientation === 'horizontal' ? 'flex' : 'block',
-            alignItems: orientation === 'horizontal' ? 'flex-start' : 'stretch',
+            display: orientationState === 'horizontal' ? 'flex' : 'block',
+            alignItems: orientationState === 'horizontal' ? 'flex-start' : 'stretch',
             position: 'relative',
           }}>
             {/* Main timeline line */}
-            {orientation === 'vertical' && (
+            {orientationState === 'vertical' && (
               <div style={{
                 position: 'absolute',
                 left: '9px',
