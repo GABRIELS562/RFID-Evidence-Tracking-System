@@ -5,9 +5,10 @@ export interface ThemeContextType {
   theme: ThemeConfig;
   toggleTheme: () => void;
   isDark: boolean;
+  mode: 'light' | 'dark';
 }
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+export const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const useTheme = () => {
   const context = useContext(ThemeContext);
@@ -30,6 +31,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     theme,
     toggleTheme,
     isDark: mode === 'dark',
+    mode,
   };
 
   return (
